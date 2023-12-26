@@ -1,0 +1,3 @@
+C:/Users/doval/CLionProjects/Grupo3_ACT4/cmake-build-debug/CMakeFiles/Grupo3_ACT4.dir
+C:/Users/doval/CLionProjects/Grupo3_ACT4/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/doval/CLionProjects/Grupo3_ACT4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
