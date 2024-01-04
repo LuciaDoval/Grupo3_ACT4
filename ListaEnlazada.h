@@ -4,6 +4,7 @@
 
 #ifndef GRUPO3_ACT4_LISTAENLAZADA_H
 #define GRUPO3_ACT4_LISTAENLAZADA_H
+
 using namespace std;
 
 template<class T>
@@ -126,7 +127,7 @@ public:
         Nodo *nodo = new Nodo(dato);
         Nodo *ultimo = ultimoNodo();
 
-        for (int i = 0; i < size(); i++) {
+       for (int i = 0; i < size(); i++) {
             if (this->at(i)->getDato() == dato) {
                 throw runtime_error("No se pueden insertar elementos duplicados");
             }
@@ -140,14 +141,22 @@ public:
      * Metodo para eliminar un Nodo concreto
      * @param dato dato del Nodo a eliminar
      */
-    void eliminarDato(T dato) {
-        Nodo *anterior; // Nodo anterior al que se quiere eliminar
-        for (int i = 0; i < size(); i++) { // Recorre la lista
-            if (this->at(i)->getDato() == dato) { // Comprueba si el dato del Nodo iterado es = al dato buscado
-                anterior = nodoAnterior(this->at(i)); // Guarda el Nodo anterior del que queremos eliminar
-                anterior->setEnlace(this->at(i)->getEnlace()); // Settea el enlace del anterior Nodo
-                cout << "Se ha eliminado: " << dato << endl;
+    void eliminarDato(T &dato) {
+        Nodo *anterior = nullptr;
+        Nodo *actual = primero;
+        while (actual != nullptr && actual->getDato() != dato) {
+            anterior = actual;
+            actual = actual->getEnlace();
+        }
+        if (actual != nullptr) {
+            if (anterior == nullptr) {
+                // Si el nodo a eliminar es el primero
+                primero = actual->getEnlace();
+            } else {
+                // Si el nodo a eliminar no es el primero
+                anterior->setEnlace(actual->getEnlace());
             }
+            delete actual;
         }
     }
 

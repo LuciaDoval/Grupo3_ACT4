@@ -8,6 +8,7 @@
 #include <vector>
 #include "enums/Genero.h"
 #include "ListaEnlazada.h"
+#include "Contacto.h"
 
 using namespace std;
 
@@ -19,8 +20,7 @@ private:
     string descripcion;
     int edad;
     Genero genero;
-    //ListaEnlazada contactos;
-    vector<Usuario> usuarios;
+    ListaEnlazada<Contacto> contactos;
 
 public:
     Usuario(string email, string apodo, string contrasenha, string descripcion, int edad, Genero genero) :
@@ -80,99 +80,108 @@ public:
         Usuario::genero = genero;
     }
 
-    void mostrar() const {
-        cout << "Email: " << getEmail() << endl;
-        cout << "Apodo: " << getApodo() << endl;
-        cout << "Descripcion: " << getDescripcion() << endl;
-        cout << "Edad: " << getEdad() << endl;
-        cout << "Genero: " << getGenero() << endl;
+    void print() const {
+        cout << "Email: " << getEmail()
+         << ", Apodo: " << getApodo()
+         << ", Descripcion: " << getDescripcion()
+         << ", Edad: " << getEdad()
+         << ", Genero: " << getGenero() << endl;
     }
 
-    //añadir
-    void anhadirUsuario(const Usuario& nuevoUsuario) {
-    usuarios.push_back(nuevoUsuario);
-    cout << "Usuario creado" << endl;
+    bool operator==(const Usuario& usuario) const {
+        return (
+                email == usuario.email &&
+                apodo == usuario.apodo &&
+                contrasenha == usuario.contrasenha &&
+                descripcion == usuario.descripcion &&
+                edad == usuario.edad &&
+                genero == usuario.genero
+        );
     }
 
-    //leer
-    void leerUsuario() {
-        cout << "Lista de Usuarios:" << endl;
-        for (const auto& usuario : usuarios) {
-            return usuario.mostrar();
-        }
-    }
-
-    void buscarEmail(string email, ListaEnlazada<Usuario> &usuarios) {
-        bool found = false;
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (email == usuarios.at(i)->getDato().getEmail()) {
-                found = true;
-                cout << "El email buscado es el: " << usuarios.at(i)->getDato().getEmail() << endl;
-            }
-        }
-        if (!found) {
-            cout << "No se encontro ningun email" << endl;
-        }
-    }
-    void buscarApodo(string apodo, ListaEnlazada<Usuario> &usuarios) {
-        bool found = false;
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (apodo == usuarios.at(i)->getDato().getApodo()) {
-                found = true;
-                cout << usuarios.at(i) << endl;
-            }
-        }
-        if (!found) {
-            cout << "No se encontro ningun apodo" << endl;
-        }
-    }
-    void buscarEdad(int edad, ListaEnlazada<Usuario> &usuarios) {
-        bool found = false;
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (edad == usuarios.at(i)->getDato().getEdad()) {
-                found = true;
-                cout << usuarios.at(i) << endl;
-            }
-        }
-        if (!found) {
-            cout << "No se encontro ninguna edad" << endl;
-        }
-    }
-    void buscarGenero(Genero genero, ListaEnlazada<Usuario> &usuarios) {
-        bool found = false;
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (genero == usuarios.at(i)->getDato().getGenero()) {
-                found = true;
-                cout << usuarios.at(i) << endl;
-            }
-        }
-        if (!found) {
-            cout << "No se encontro ningun genero" << endl;
-        }
-    }
-
-    //actualizar
-    void actualizarUsuario(const string &email, const Usuario &nuevosDatos) {
-        for (auto &i : usuarios) { //itera a traves de cada elemento de la lista de usuarios y para cada elemento, se hace referencia mediante "i"
-            if (i.getEmail() == email) { //verifica si el email actual coincide con el email introducido
-                i = nuevosDatos; //si se encuentra un usuario con ese email se actualizan los datos
-                cout << "Usuario actualizado" << endl;
-            }
-        }
-        cout << "Usuario no encontrado" << endl;
-    }
-
-    //eliminar
-    void eliminarUsuario(const string &email) {//referencia const a un string
-        for (auto it = usuarios.begin(); it != usuarios.end(); ++it) {//itera, con it, a traves de usuarios desde el inicio hasta el final
-            if (it->getEmail() == email) { //se compara si eñ email introducido coincide con el introducido
-                usuarios.erase(it); //si coincide, se elimina de la posisicion encontrada
-                cout << "Usuario eliminado" << endl;
-            }
-        }
-        cout << "Usuario no encontrado" << endl;
-    }
 };
 
+//leer
+void printUsuarios(ListaEnlazada<Usuario> usuarios) {
+    cout << "Lista de Usuarios:" << endl;
+    for (int i = 0; i < usuarios.size(); ++i) {
+        usuarios.at(i)->getDato().print();
+    }
+}
+
+void buscarEmail(string email, ListaEnlazada<Usuario> &usuarios) {
+    bool found = false;
+    for (int i = 0; i < usuarios.size(); i++) {
+        if (email == usuarios.at(i)->getDato().getEmail()) {
+            found = true;
+            cout << "El email buscado es el: " << usuarios.at(i)->getDato().getEmail() << endl;
+        }
+    }
+    if (!found) {
+        cout << "No se encontro ningun email" << endl;
+    }
+}
+void buscarApodo(string apodo, ListaEnlazada<Usuario> &usuarios) {
+    bool found = false;
+    for (int i = 0; i < usuarios.size(); i++) {
+        if (apodo == usuarios.at(i)->getDato().getApodo()) {
+            found = true;
+            cout << usuarios.at(i) << endl;
+        }
+    }
+    if (!found) {
+        cout << "No se encontro ningun apodo" << endl;
+    }
+}
+void buscarEdad(int edad, ListaEnlazada<Usuario> &usuarios) {
+    bool found = false;
+    for (int i = 0; i < usuarios.size(); i++) {
+        if (edad == usuarios.at(i)->getDato().getEdad()) {
+            found = true;
+            cout << usuarios.at(i) << endl;
+        }
+    }
+    if (!found) {
+        cout << "No se encontro ninguna edad" << endl;
+    }
+}
+void buscarGenero(Genero genero, ListaEnlazada<Usuario> &usuarios) {
+    bool found = false;
+    for (int i = 0; i < usuarios.size(); i++) {
+        if (genero == usuarios.at(i)->getDato().getGenero()) {
+            found = true;
+            cout << usuarios.at(i) << endl;
+        }
+    }
+    if (!found) {
+        cout << "No se encontro ningun genero" << endl;
+    }
+}
+
+//actualizar
+void actualizarUsuario(string email, string apodo, string contrasenha, string descripcion, int edad, Usuario &usuario, ListaEnlazada<Usuario> &usuarios){
+    bool found = false;
+    for (int i = 0; i < usuarios.size(); ++i) {
+        if (usuario == usuarios.at(i)->getDato()) {
+            usuarios.eliminarDato(usuario);
+            if(email == ""){ email = usuario.getEmail();}
+            if(apodo == ""){ email = usuario.getApodo();}
+            if(contrasenha == ""){ email = usuario.getContrasenha();}
+            if(descripcion == ""){ email = usuario.getDescripcion();}
+            if(edad == 0){ email = usuario.getEdad();}
+            auto *aux = new Usuario( email,  apodo, contrasenha, descripcion, edad, usuario.getGenero());
+            usuarios.insertFinal(*aux);
+            usuario.setEmail(email);
+            usuario.setEdad(edad);
+            usuario.setApodo(apodo);
+            usuario.setContrasenha(contrasenha);
+            usuario.setDescripcion(descripcion);
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "No se ha encontrado" << endl;
+    }
+}
 
 #endif //GRUPO3_ACT4_USUARIO_H
