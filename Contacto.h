@@ -14,7 +14,6 @@ class Contacto{
 private:
     string email;
     string info;
-    vector<Contacto> contactos;
 public:
     /**
      * Constructor a vacio de Contacto
@@ -34,10 +33,17 @@ public:
     }
 
     /**
+     * Destructor de la clase contacto
+     */
+    ~Contacto() {
+
+    }
+
+    /**
      * Metodo para ver todos los datos de un contacto
      */
-     void verInfo(){
-        cout << "Email: " << email << ", Info: " << info << endl;
+     string to_string(){
+        return  "Email: " + email + ", Info: " + info;
     }
 
     /**
@@ -69,26 +75,41 @@ public:
         Contacto::info = info;
     }
 
+    // Sobrecarga del operador ==
+    bool operator==(const Contacto& otro) const {
+        return (email == otro.email) && (info == otro.info);
+    }
+
 };
 
+void printContacto(ListaEnlazada<Contacto> &contactos){
+    for (int i = 0; i < contactos.size(); ++i) {
+        cout << contactos.at(i)->getDato().to_string() << endl;
+    }
+}
 
 /**
- * Funcion para poder modificar la informacion del contacto
- * @param email
- * @param contactos
+ * Funcion que te permite modificar un contacto
+ * @param infoNueva informacion por la que vas a cambiar
+ * @param contacto Contacto a modificar
+ * @param contactos La lista de contactos
  */
-void modificarInfoDelContacto(string email, ListaEnlazada<Contacto> &contactos){
+void modificarInfoDelContacto(string infoNueva, Contacto &contacto, ListaEnlazada<Contacto> &contactos){
     bool found = false;
     for (int i = 0; i < contactos.size(); ++i) {
-        if (email == contactos.at(i)->getDato().getEmail()){
-            string infoNueva;
-            cout << "Ingrese la nuea informacion: " << endl;
-            cin >> infoNueva;
-            contactos.at(i)->getDato().setInfo(infoNueva);
+        if (contacto == contactos.at(i)->getDato()) {
+            contactos.eliminarDato(contacto);
+            auto  aux = new Contacto(contacto.getEmail(), infoNueva);
+            try {
+                contactos.insertFinal(*aux);
+            } catch (...) {
+                cerr << "No se ha podido insertar" << endl;
+            }
+            contacto.setInfo(infoNueva);
             found = true;
         }
     }
-    if (!found ){
+    if (!found) {
         cout << "No se ha encontrado" << endl;
     }
 }
@@ -101,25 +122,12 @@ void busquedaDeContacto(string email, ListaEnlazada<Contacto> &contactos){
     bool found = false;
     for (int i = 0; i < contactos.size(); ++i){
         if (email == contactos.at(i)->getDato().getEmail()){
-            contactos.at(i)->getDato().verInfo();
+            contactos.at(i)->getDato().to_string();
             found = true;
         }
     }
     if (!found ){
         cout << "No se ha encontrado" << endl;
-    }
-}
-/**
- * Funcion para eliminar contactor
- * @param email
- * @param contactos
- */
-void eliminarContacto(string email, ListaEnlazada<Contacto> &contactos){
-    for (int i = 0; i < contactos.size(); ++i){
-        if (email == contactos.at(i)->getDato().getEmail()){
-            contactos.at(i)->getDato().setInfo("");
-            contactos.at(i)->getDato().setEmail("");
-        }
     }
 }
 
