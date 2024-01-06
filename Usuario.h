@@ -20,7 +20,7 @@ private:
     string descripcion;
     int edad;
     Genero genero;
-    ListaEnlazada<Contacto> contactos;
+    ListaEnlazada<Contacto>* contactos;
 
 public:
     Usuario(string email, string apodo, string contrasenha, string descripcion, int edad, Genero genero) :
@@ -30,7 +30,11 @@ public:
             descripcion(descripcion),
             edad(edad),
             genero(genero) {
+
+        contactos = new ListaEnlazada<Contacto>();
     }
+
+    Usuario (){}
 
     const string &getEmail() const {
         return email;
@@ -58,6 +62,14 @@ public:
 
     const string &getDescripcion() const {
         return descripcion;
+    }
+
+    ListaEnlazada<Contacto> &getContactos() {
+        return *contactos;
+    }
+
+    void setContactos(ListaEnlazada<Contacto> *contactos) {
+        Usuario::contactos = contactos;
     }
 
     void setDescripcion(const string &descripcion) {
@@ -99,27 +111,37 @@ public:
         );
     }
 
+    friend std::ostream& operator<<(std::ostream&os, const Usuario&us) {
+        string genero;
+        switch (us.getGenero()) {
+            case 0:
+                genero = "Mujer";
+                break;
+            case 1:
+                genero = "Hombre";
+                break;
+            case 2:
+                genero= "Otro";
+                break;
+            default:
+                genero = "No definido";
+                break;
+        }
+        os << (us.getApodo() +"\n" + us.getEmail() +"\nEdad:" + to_string(us.getEdad()) + " Genero: " +genero + "\ndescripcion: " + us.getDescripcion());
+        return os;
+    }
+
 };
 
-//leer
-void printUsuarios(ListaEnlazada<Usuario> usuarios) {
-    cout << "Lista de Usuarios:" << endl;
-    for (int i = 0; i < usuarios.size(); ++i) {
-        usuarios.at(i)->getDato().print();
-    }
-}
+Usuario &buscarEmail(string email, ListaEnlazada<Usuario> &usuarios) {
 
-void buscarEmail(string email, ListaEnlazada<Usuario> &usuarios) {
-    bool found = false;
     for (int i = 0; i < usuarios.size(); i++) {
         if (email == usuarios.at(i)->getDato().getEmail()) {
-            found = true;
-            cout << "El email buscado es el: " << usuarios.at(i)->getDato().getEmail() << endl;
+            return usuarios.at(i)->getDato();
         }
     }
-    if (!found) {
-        cout << "No se encontro ningun email" << endl;
-    }
+    throw std::runtime_error("No se encontró el email");
+
 }
 void buscarApodo(string apodo, ListaEnlazada<Usuario> &usuarios) {
     bool found = false;
@@ -130,7 +152,7 @@ void buscarApodo(string apodo, ListaEnlazada<Usuario> &usuarios) {
         }
     }
     if (!found) {
-        cout << "No se encontro ningun apodo" << endl;
+        cout << "No se encontro ningun usuario con ese apodo" << endl;
     }
 }
 void buscarEdad(int edad, ListaEnlazada<Usuario> &usuarios) {
@@ -165,10 +187,10 @@ void actualizarUsuario(string email, string apodo, string contrasenha, string de
         if (usuario == usuarios.at(i)->getDato()) {
             usuarios.eliminarDato(usuario);
             if(email == ""){ email = usuario.getEmail();}
-            if(apodo == ""){ email = usuario.getApodo();}
-            if(contrasenha == ""){ email = usuario.getContrasenha();}
-            if(descripcion == ""){ email = usuario.getDescripcion();}
-            if(edad == 0){ email = usuario.getEdad();}
+            if(apodo == ""){ apodo = usuario.getApodo();}
+            if(contrasenha == ""){ contrasenha = usuario.getContrasenha();}
+            if(descripcion == ""){ descripcion = usuario.getDescripcion();}
+            if(edad == 0){ edad = usuario.getEdad();}
             auto *aux = new Usuario( email,  apodo, contrasenha, descripcion, edad, usuario.getGenero());
             usuarios.insertFinal(*aux);
             usuario.setEmail(email);
