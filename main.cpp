@@ -12,6 +12,7 @@ int main() {
     int opcion, edad, genero, intentos = 0;
     string email, cont, apodo, desc, info, contacto;
     Usuario *nuevoUsuario;
+    Contacto *contacto123;
 
 
     //Usuarios pre-Guardados
@@ -445,8 +446,32 @@ int main() {
                     }
                     break;
                 case 7:
+                    cout << endl;
+                    cout << "--------------" << endl;
+                    cout << "Escribe el email del contacto que quieres agregar:" << endl;
+                    if (!(cin >> contacto)) {
+                        throw runtime_error("El email del contacto no se ha guardado adecuadamente");
+                    }
+                    buscarEmail(contacto, *listaDeUsuarios);
+                    cout << "Escribe la info del contacto que quieres agregar: " << endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    getline(cin, info);
+                    contacto123 = new Contacto(contacto, info);
+                    actual1->getContactos().insertFinal(*contacto123);
                     break;
                 case 8:
+                    cout << endl;
+                    cout << "--------------" << endl;
+                    cout << "Escribe el email del contacto que quieres eliminar:" << endl;
+                    if (!(cin >> contacto)) {
+                        throw runtime_error("El email del contacto no se ha guardado adecuadamente");
+                    }
+                    if (busquedaDeContacto(contacto, actual1->getContactos()) == -1){
+                        throw runtime_error("Este usuario no esta en tu lista de contactos");
+                    }else{
+                        actual1->getContactos().eliminarDato(actual1->getContactos().at(busquedaDeContacto(contacto, actual1->getContactos()))->getDato());
+                    }
+
                     break;
                 case 9:
                     break;
