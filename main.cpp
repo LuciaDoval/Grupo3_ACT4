@@ -359,6 +359,7 @@ int main() {
                     actual1->getContactos().print();
                     break;
                 case 4:
+                    //Este codigo tiene un bad alloc
                     /**
                     cout << endl;
                     cout << "--------------" << endl;
