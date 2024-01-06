@@ -23,6 +23,11 @@ private:
          */
         Nodo(T dato) : dato(dato), enlace(nullptr) {}
 
+        //destructor de nodo
+        virtual ~Nodo() {
+
+        }
+
         // Getter para conseguir el dato del nodo
         T& getDato() {
             return dato;
@@ -168,7 +173,6 @@ public:
                 // Si el nodo a eliminar no es el primero
                 anterior->setEnlace(actual->getEnlace());
             }
-            delete actual;
         }
     }
 
