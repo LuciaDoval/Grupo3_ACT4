@@ -24,7 +24,7 @@ private:
         Nodo(T dato) : dato(dato), enlace(nullptr) {}
 
         // Getter para conseguir el dato del nodo
-        T getDato() const {
+        T& getDato() {
             return dato;
         }
 
@@ -46,6 +46,14 @@ public:
      */
     ListaEnlazada() {
         ListaEnlazada::primero = nullptr;
+    }
+
+    /**
+     *
+     * @return lista vacia ->true else false
+     */
+    bool esVacia(){
+        if (primero == nullptr){return true;}else{return false;}
     }
 
     /**
@@ -124,17 +132,21 @@ public:
      * @param dato Dato a insertar en el Nodo
      */
     void insertFinal(T dato) {
-        Nodo *nodo = new Nodo(dato);
-        Nodo *ultimo = ultimoNodo();
-
-       for (int i = 0; i < size(); i++) {
-            if (this->at(i)->getDato() == dato) {
+        // Verificar duplicados antes de crear el nuevo nodo
+        for (Nodo* temp = primero; temp != nullptr; temp = temp->getEnlace()) {
+            if (temp->getDato() == dato) {
                 throw runtime_error("No se pueden insertar elementos duplicados");
             }
         }
-        if (primero == nullptr) { // No hay elementos en la lista
+
+        Nodo* nodo = new Nodo(dato);
+        Nodo* ultimo = ultimoNodo();
+
+        if (ultimo == nullptr) { // No hay elementos en la lista
             primero = nodo;
-        } else { ultimo->setEnlace(nodo); }
+        } else {
+            ultimo->setEnlace(nodo);
+        }
     }
 
     /**
@@ -165,9 +177,14 @@ public:
      */
     void print() {
         Nodo *nodo = primero;
-        while (nodo != nullptr) {
-            cout << nodo->getDato() << endl;
-            nodo = nodo->getEnlace();
+        if (esVacia()){
+            cout << "No extisten datos" << endl;
+        }else {
+            while (nodo != nullptr) {
+                cout << "---------" << endl;
+                cout << nodo->getDato() << endl;
+                nodo = nodo->getEnlace();
+            }
         }
     }
 
