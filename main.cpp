@@ -6,6 +6,77 @@
 #include <stdexcept>
 
 using namespace std;
+/**
+ * Funcion que importa y exporta los contactos de un usuarioAc a otro
+ * @param usuarios lista de usuarios
+ * @param usuarioAc usuarioAc que realiza la operacion
+*/
+void importarYExportar(ListaEnlazada<Usuario>& usuarios, Usuario& usuario) {
+    bool seguir = true;
+    Usuario usuarioEx;
+    Usuario usuarioIm;
+    Usuario usuarioAc = usuario;
+
+    while (seguir) {
+        try {
+            int seleccion;
+            string email;
+            cout << "Quieres Importar o exportar? \n1. importar \n2. exportar \n3. Salir" << endl;
+
+            if (!(cin >> seleccion)) {
+                throw runtime_error("Escribe un numero del 1 al 3");
+            }
+
+            switch (seleccion) {
+                case 1:
+                    cout << "De que usuario quieres importar contactos?" << endl;
+                    if (!(cin >> email)) {
+                        throw runtime_error("El email no se ha guardado adecuadamente");
+                    }
+                    usuarioEx = buscarEmail(email, usuarios);
+
+                    for (int i = 0; i < usuarioEx.getContactos().size(); ++i) {
+                        if (!buscarEmailBool(usuarioEx.getContactos().at(i)->getDato().getEmail(), usuarioAc.getContactos())) {
+                            Contacto nuevoContacto = usuarioEx.getContactos().at(i)->getDato();
+                            usuarioAc.getContactos().insertFinal(nuevoContacto);
+                        }
+                    }
+                    cout <<"Se han importado correctamente" <<endl;
+                    break;
+
+                case 2:
+                    cout << "A que usuario quieres exportar tus contactos?" << endl;
+                    if (!(cin >> email)) {
+                        throw runtime_error("El email no se ha guardado adecuadamente");
+                    }
+                    usuarioIm = buscarEmail(email, usuarios);
+
+                    for (int i = 0; i < usuarioAc.getContactos().size(); ++i) {
+                        if (!buscarEmailBool(usuarioAc.getContactos().at(i)->getDato().getEmail(), usuarioIm.getContactos())) {
+                            Contacto nuevoContacto = usuarioAc.getContactos().at(i)->getDato();
+                            usuarioIm.getContactos().insertFinal(nuevoContacto);
+                        }
+                    }
+                    cout <<"Se han exportado correctamente" <<endl;
+                    break;
+
+                case 3:
+                    cout << "Volviendo al menu anterior..." <<endl;
+                    seguir = false;
+                    break;
+
+                default:
+                    throw runtime_error("Escribe un numero del 1 al 3");
+            }
+        } catch (const runtime_error &e) {
+            cerr << e.what() << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+    }
+
+}
 
 int main() {
     bool noAcept = true, contra = true;
@@ -176,6 +247,9 @@ int main() {
                 if (!(cin >> email)) {
                     throw runtime_error("Lo siento, tu email no se ha guardado adecuadamente");
                 }
+                if (buscarEmailBool1(email, *listaDeUsuarios)){
+                    throw runtime_error("Este email no esta disponible");
+                }
 
                 cout << "Por favor escribe una contrasenha: " << endl;
                 if (!(cin >> cont)) {
@@ -315,6 +389,9 @@ int main() {
                             if (email == actual1->getEmail()) {
                                 throw runtime_error("Escribe un email distinto al actual1");
                             }
+                            if (buscarEmailBool1(email, *listaDeUsuarios)){
+                                throw runtime_error("Este email no esta disponible");
+                            }
                             actualizarUsuario(email, "", "", "", 0, *actual1, *listaDeUsuarios);
                             break;
                         case 3:
@@ -360,27 +437,28 @@ int main() {
                     break;
                 case 4:
                     //Este codigo tiene un bad alloc
-                    /**
                     cout << endl;
                     cout << "--------------" << endl;
                     cout << "Escribe el email del contacto que quieres modificar:" << endl;
                     if (!(cin >> contacto)) {
                         throw runtime_error("El email del contacto no se ha guardado adecuadamente");
                     }
-                    if (busquedaDeContacto(contacto, actual1->getContactos()) == -1){
+                    if (busquedaDeContacto(contacto, actual1->getContactos()) == -1) {
                         throw runtime_error("Ese email no existe entre tus contactos");
-                    }else {
-                        cout << "Su informacion actual1 es: " << actual1->getContactos().at(busquedaDeContacto(contacto, actual1->getContactos()))->getDato() << endl;
-                        cout << "Escribe su nueva informacion: "<<endl;
+                    } else {
+                        cout << "Su informacion actual es: " << actual1->getContactos().at(
+                                busquedaDeContacto(contacto, actual1->getContactos()))->getDato() << endl;
+                        cout << "Escribe su nueva informacion: " << endl;
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         getline(cin, info);
-                        if (info == actual1->getContactos().at(busquedaDeContacto(contacto, actual1->getContactos()))->getDato().getInfo()){
+                        if (info == actual1->getContactos().at(
+                                busquedaDeContacto(contacto, actual1->getContactos()))->getDato().getInfo()) {
                             throw runtime_error("Escribe su nueva informacion distinta a la anterior");
                         }
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                        modificarInfoDelContacto(info,actual1->getContactos().at(busquedaDeContacto(contacto, actual1->getContactos()))->getDato(), actual1->getContactos());
+                        modificarInfoDeContacto(*actual1, info, contacto);
                     }
-                     */
+
                     break;
                 case 5:
                     listaDeUsuarios->print();
@@ -388,7 +466,7 @@ int main() {
                 case 6:
                     cout << endl;
                     cout << "--------------" << endl;
-                    cout << "Como quieres buscar? \n1. Por Email \n2. Por apodo \n3. Por Edad \n4.Por genero \n5. Salir"
+                    cout << "Como quieres buscar? \n1. Por Email \n2. Por apodo \n3. Por Edad \n4. Por genero \n5. Salir"
                          << endl;
                     if (!(cin >> opcion)) {
                         throw runtime_error("Tienes que escribir un numero del 1 al 5");
@@ -467,16 +545,43 @@ int main() {
                     if (!(cin >> contacto)) {
                         throw runtime_error("El email del contacto no se ha guardado adecuadamente");
                     }
-                    if (busquedaDeContacto(contacto, actual1->getContactos()) == -1){
+                    if (busquedaDeContacto(contacto, actual1->getContactos()) == -1) {
                         throw runtime_error("Este usuario no esta en tu lista de contactos");
-                    }else{
-                        actual1->getContactos().eliminarDato(actual1->getContactos().at(busquedaDeContacto(contacto, actual1->getContactos()))->getDato());
+                    } else {
+                        actual1->getContactos().eliminarDato(actual1->getContactos().at(
+                                busquedaDeContacto(contacto, actual1->getContactos()))->getDato());
                     }
 
                     break;
                 case 9:
+                    importarYExportar(*listaDeUsuarios, *actual1);
                     break;
                 case 10:
+                    delete usuario1;
+                    delete usuario2;
+                    delete usuario3;
+                    delete usuario4;
+                    delete usuario5;
+                    delete usuario6;
+                    delete usuario7;
+                    delete usuario8;
+                    delete usuario9;
+                    delete usuario10;
+
+                    delete c1;
+                    delete c2;
+                    delete c3;
+                    delete c4;
+                    delete c5;
+                    delete c6;
+
+                    delete lista1;
+                    delete lista2;
+                    delete lista3;
+                    delete lista4;
+
+                    delete listaDeUsuarios;
+
                     cout << "Hasta la proxima!" << endl;
                     contra = false;
                     break;

@@ -80,39 +80,13 @@ public:
         return (email == otro.email) && (info == otro.info);
     }
 
+    //sobrecarga del operador <<
     friend std::ostream& operator<<(std::ostream&os, const Contacto&c) {
         os << ("Contacto: " +c.getEmail() +", descripcion: "+ c.getInfo());
         return os;
     }
 };
 
-
-
-/**
- * Funcion que te permite modificar un contacto
- * @param infoNueva informacion por la que vas a cambiar
- * @param contacto Contacto a modificar
- * @param contactos La lista de contactos
- */
-void modificarInfoDelContacto(string infoNueva, Contacto &contacto, ListaEnlazada<Contacto> &contactos){
-    bool found = false;
-    for (int i = 0; i < contactos.size(); ++i) {
-        if (contacto == contactos.at(i)->getDato()) {
-            contactos.eliminarDato(contacto);
-            auto  aux = new Contacto(contacto.getEmail(), infoNueva);
-            try {
-                contactos.insertFinal(*aux);
-            } catch (...) {
-                cerr << "No se ha podido insertar" << endl;
-            }
-            contacto.setInfo(infoNueva);
-            found = true;
-        }
-    }
-    if (!found) {
-        cout << "No se ha encontrado" << endl;
-    }
-}
 /**
  * Funcion que te permite buscar tu contacto mediante el email
  * @param email
