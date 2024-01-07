@@ -25,12 +25,12 @@ private:
 public:
     /**
      * Constructor parametrizado de usuario
-     * @param email
-     * @param apodo
-     * @param contrasenha
-     * @param descripcion
-     * @param edad
-     * @param genero
+     * @param email Email del usuario
+     * @param apodo Apodo del usuario
+     * @param contrasenha Contrasenha del usuario
+     * @param descripcion Descripción personal sobre el usuario
+     * @param edad Edad del usuario
+     * @param genero Genero del usuario
      */
     Usuario(string email, string apodo, string contrasenha, string descripcion, int edad, Genero genero) :
             email(email),

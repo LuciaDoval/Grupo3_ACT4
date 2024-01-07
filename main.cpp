@@ -21,7 +21,7 @@ void importarYExportar(ListaEnlazada<Usuario>& usuarios, Usuario& usuario) {
         try {
             int seleccion;
             string email;
-            cout << "Quieres Importar o exportar? \n1. importar \n2. exportar \n3. Salir" << endl;
+            cout << "Quieres importar o exportar? \n1. Importar \n2. Exportar \n3. Salir" << endl;
 
             if (!(cin >> seleccion)) {
                 throw runtime_error("Escribe un numero del 1 al 3");
@@ -88,40 +88,40 @@ int main() {
 
     //Usuarios pre-Guardados
 
-    Usuario *usuario1 = new Usuario("luciadoval1@gmail.com", "Lu", "wubbaLubbaDubDub",
+    auto *usuario1 = new Usuario("luciadoval1@gmail.com", "Lu", "wubbaLubbaDubDub",
                                     "Tengo 19 anhos, me gusta el anime, jugar videojuegos y la inforamtica", 19,
                                     Genero::Femenino);
-    Usuario *usuario2 = new Usuario("sergiomazahg@gmail.com", "Mazita", "69",
+    auto *usuario2 = new Usuario("sergiomazahg@gmail.com", "Mazita", "69",
                                     "Me gustan las motos y los videojuegos, me gusta emplear mi tiempo libre en aprender cosas nuevas como por ejemplo como programar aplicaciones web",
                                     19, Genero::Masculino);
-    Usuario *usuario3 = new Usuario("vidhi@gmail.com", "vidhi", "soyvidhi1234", "Me gusta leer y el lol", 19,
+    auto *usuario3 = new Usuario("vidhi@gmail.com", "vidhi", "soyvidhi1234", "Me gusta leer y el lol", 19,
                                     Genero::Femenino);
-    Usuario *usuario4 = new Usuario("victor@gmail.com", "victor", "soyvictor1234", "Me gusta el baloncesto y el lol",
+    auto *usuario4 = new Usuario("victor@gmail.com", "victor", "soyvictor1234", "Me gusta el baloncesto y el lol",
                                     19,
                                     Genero::Masculino);
-    Usuario *usuario5 = new Usuario("clau@gmail.com", "clau", "1234", "Me gustan los gatos", 19, Genero::Otros);
-    Usuario *usuario6 = new Usuario("NoSoyUnBot@gmail.com", "NoSoyUnBot", "NoSoyUnBot",
+    auto *usuario5 = new Usuario("clau@gmail.com", "clau", "1234", "Me gustan los gatos", 19, Genero::Otros);
+    auto *usuario6 = new Usuario("NoSoyUnBot@gmail.com", "NoSoyUnBot", "NoSoyUnBot",
                                     "Me interesan todas las cosas tipicas", 25,
                                     Genero::Otros);
-    Usuario *usuario7 = new Usuario("ricksanchez@gmail.com", "Rick", "6969", "Soy un cientifico borracho", 65,
+    auto *usuario7 = new Usuario("ricksanchez@gmail.com", "Rick", "6969", "Soy un cientifico borracho", 65,
                                     Genero::Masculino);
-    Usuario *usuario8 = new Usuario("CoolDude@gmail.com", "CoolDude", "QueEsContrasenha",
+    auto *usuario8 = new Usuario("CoolDude@gmail.com", "CoolDude", "QueEsContrasenha",
                                     "Me llamo papyrus, soy un gran cocinero, miembro de la guardia real y soy un tio muy guay",
                                     0,
                                     Genero::Otros);
-    Usuario *usuario9 = new Usuario("Fabian@gmail.com", "Fabian", "1234", "Busco chicas que respiren(opcional)", 19,
+    auto *usuario9 = new Usuario("Fabian@gmail.com", "Fabian", "1234", "Busco chicas que respiren(opcional)", 19,
                                     Genero::Masculino);
-    Usuario *usuario10 = new Usuario("kimPosible@gmail.com", "Kim", "1234", "Llama, grita, si me necesitas", 16,
+    auto *usuario10 = new Usuario("kimPosible@gmail.com", "Kim", "1234", "Llama, grita, si me necesitas", 16,
                                      Genero::Femenino);
 
-    Contacto *c1 = new Contacto("sergiomazahg@gmail.com", "Mi amigo Sergio de la uni");
-    Contacto *c2 = new Contacto("vidhi@gmail.com", "Mi amiga de la uni");
-    Contacto *c3 = new Contacto("victor@gmail.com", "Mi amigo victor de la uni");
-    Contacto *c4 = new Contacto("clau@gmail.com", "mi prima");
-    Contacto *c5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
-    Contacto *c6 = new Contacto("ricksanchez@gmail.com", "Rick Sanchez");
+    auto *c1 = new Contacto("sergiomazahg@gmail.com", "Mi amigo Sergio de la uni");
+    auto *c2 = new Contacto("vidhi@gmail.com", "Mi amiga de la uni");
+    auto *c3 = new Contacto("victor@gmail.com", "Mi amigo victor de la uni");
+    auto *c4 = new Contacto("clau@gmail.com", "mi prima");
+    auto *c5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
+    auto *c6 = new Contacto("ricksanchez@gmail.com", "Rick Sanchez");
 
-    ListaEnlazada<Contacto> *lista1 = new ListaEnlazada<Contacto>();
+    auto *lista1 = new ListaEnlazada<Contacto>();
     lista1->insertFinal(*c1);
     lista1->insertFinal(*c2);
     lista1->insertFinal(*c3);
@@ -131,15 +131,15 @@ int main() {
 
     usuario1->setContactos(lista1);
 
-    Contacto *co1 = new Contacto("luciadoval1@gmail.com", "Mi amiga de la uni");
-    Contacto *co2 = new Contacto("vidhi@gmail.com", "Vidhi de la uni");
-    Contacto *co3 = new Contacto("victor@gmail.com", "victor de rivas");
-    Contacto *co4 = new Contacto("clau@gmail.com", "la prima de lu");
-    Contacto *co5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
-    Contacto *co6 = new Contacto("CoolDude@gmail.com", "Papyrus de snowdin");
-    Contacto *co7 = new Contacto("ricksanchez@gmail.com", "rick sanchez de la c-137");
+    auto *co1 = new Contacto("luciadoval1@gmail.com", "Mi amiga de la uni");
+    auto *co2 = new Contacto("vidhi@gmail.com", "Vidhi de la uni");
+    auto *co3 = new Contacto("victor@gmail.com", "victor de rivas");
+    auto *co4 = new Contacto("clau@gmail.com", "la prima de lu");
+    auto *co5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
+    auto *co6 = new Contacto("CoolDude@gmail.com", "Papyrus de snowdin");
+    auto *co7 = new Contacto("ricksanchez@gmail.com", "rick sanchez de la c-137");
 
-    ListaEnlazada<Contacto> *lista2 = new ListaEnlazada<Contacto>();
+    auto *lista2 = new ListaEnlazada<Contacto>();
     lista2->insertFinal(*co1);
     lista2->insertFinal(*co2);
     lista2->insertFinal(*co3);
@@ -150,13 +150,13 @@ int main() {
 
     usuario2->setContactos(lista2);
 
-    Contacto *con1 = new Contacto("luciadoval1@gmail.com", "Mi amiga de la uni");
-    Contacto *con2 = new Contacto("sergiomazahg@gmail.com", "Sergio de la uni");
-    Contacto *con3 = new Contacto("victor@gmail.com", "companhero de clase");
-    Contacto *con4 = new Contacto("clau@gmail.com", "la prima de lu");
-    Contacto *con5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
+    auto *con1 = new Contacto("luciadoval1@gmail.com", "Mi amiga de la uni");
+    auto *con2 = new Contacto("sergiomazahg@gmail.com", "Sergio de la uni");
+    auto *con3 = new Contacto("victor@gmail.com", "companhero de clase");
+    auto *con4 = new Contacto("clau@gmail.com", "la prima de lu");
+    auto *con5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
 
-    ListaEnlazada<Contacto> *lista3 = new ListaEnlazada<Contacto>();
+    auto *lista3 = new ListaEnlazada<Contacto>();
     lista3->insertFinal(*con1);
     lista3->insertFinal(*con2);
     lista3->insertFinal(*con3);
@@ -165,12 +165,12 @@ int main() {
 
     usuario3->setContactos(lista3);
 
-    Contacto *cont1 = new Contacto("luciadoval1@gmail.com", "Mi amiga de la uni");
-    Contacto *cont2 = new Contacto("sergiomazahg@gmail.com", "Sergio de rivas");
-    Contacto *cont3 = new Contacto("vidhi@gmail.com", "Companhera de clase");
-    Contacto *cont5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
+    auto *cont1 = new Contacto("luciadoval1@gmail.com", "Mi amiga de la uni");
+    auto *cont2 = new Contacto("sergiomazahg@gmail.com", "Sergio de rivas");
+    auto *cont3 = new Contacto("vidhi@gmail.com", "Companhera de clase");
+    auto *cont5 = new Contacto("Fabian@gmail.com", "Fabian de la uni");
 
-    ListaEnlazada<Contacto> *lista4 = new ListaEnlazada<Contacto>();
+    auto *lista4 = new ListaEnlazada<Contacto>();
     lista4->insertFinal(*cont1);
     lista4->insertFinal(*cont2);
     lista4->insertFinal(*cont3);
@@ -178,7 +178,7 @@ int main() {
 
     usuario4->setContactos(lista4);
 
-    ListaEnlazada<Usuario> *listaDeUsuarios = new ListaEnlazada<Usuario>();
+    auto *listaDeUsuarios = new ListaEnlazada<Usuario>();
     listaDeUsuarios->insertFinal(*usuario1);
     listaDeUsuarios->insertFinal(*usuario2);
     listaDeUsuarios->insertFinal(*usuario3);
@@ -327,7 +327,7 @@ int main() {
             cerr << e.what() << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        };
+        }
     }
 
     Usuario &referencia = buscarEmail(email, *listaDeUsuarios);
@@ -592,8 +592,8 @@ int main() {
             cerr << e.what() << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        };
+        }
     }
 
     return 0;
-};
+}
